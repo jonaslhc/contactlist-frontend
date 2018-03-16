@@ -3,6 +3,8 @@ import { Container, Col, Row } from 'reactstrap';
 import ContactBar from '../components/ContactBar';
 import ContactDetail from '../components/ContactDetail';
 
+import '../styles/home.css';
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -16,10 +18,10 @@ class Home extends Component {
     return (
       <Container>
         <Row>
-          <Col xs="3">
+          <Col className="home-col" xs="3">
             <ContactBar />
           </Col>
-          <Col xs="9">
+          <Col className="home-col" xs="9">
             <ContactDetail />
           </Col>
         </Row>

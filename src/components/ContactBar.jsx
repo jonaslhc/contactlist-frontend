@@ -30,10 +30,9 @@ class ContactBar extends Component {
   }
 
   renderContacts(data) {
-    // return (
     if (data.loading) {
         return <p>Loading ...</p>;
-      }
+    }
     if (data.error) {
       return <p>{data.error.message}</p>;
     }
@@ -42,16 +41,11 @@ class ContactBar extends Component {
       <div className="contacts-list">
         {data.Contact.map(contact => (
           <div key={contact.contactId} className="contact">
-            {contact.firstname}
-            {contact.lastname}
-            {contact.phone}
-            {contact.address}
+            <span>{contact.lastname}, {contact.firstname}</span>
           </div>))
         }
       </div>
     );
-    // };
-    // );
   }
 
   render() {
@@ -60,10 +54,9 @@ class ContactBar extends Component {
         <div className="search-container">
           <h5>All Contacts</h5>
           <InputGroup>
-            <Input placeholder="Search" />
+            <Input className="search-contact-input" placeholder="Search" />
           </InputGroup>
         </div>
-        {/* <ContactCard /> */}
         {this.renderContacts(this.props.data)}
       </Container>
     );
