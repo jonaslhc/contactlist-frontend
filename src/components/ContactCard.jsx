@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 
-const ContactCard = ({ data: { loading, error, channels }}) => {
+const ContactCard = ({ data: { loading, error, Contact }}) => {
   if (loading) {
     return <p>Loading ...</p>;
   }
@@ -12,21 +12,30 @@ const ContactCard = ({ data: { loading, error, channels }}) => {
   }
 
   return (
-    <div className="channelsList">
-      {channels.map(ch =>
-        (<div key={ch.id} className="channel">{ch.name}</div>))
+    <div className="contacts-list">
+      {Contact.map(contact => (
+        <div key={contact.contactId} className="contact">
+          {contact.firstname}
+          {contact.lastname}
+          {contact.phone}
+          {contact.address}
+        </div>))
       }
     </div>
   );
 };
 
-export const channelsListQuery = gql`
-  query ChannelsListQuery {
-    channels {
-      id
-      name
+export const contactListQuery = gql`
+  query contactListQuery {
+    Contact {
+      contactId
+      firstname
+      lastname
+      address
+      phone
+      email
     }
   }
 `;
 
-export default graphql(channelsListQuery)(ContactCard);
+export default graphql(contactListQuery)(ContactCard);
