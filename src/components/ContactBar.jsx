@@ -11,11 +11,6 @@ class ContactBar extends Component {
     this.state = {
 
     };
-    this.renderContactCard = this.renderContactCard.bind(this);
-  }
-
-  renderContactCard() {
-    return <ContactCard />;
   }
 
   render() {
@@ -27,7 +22,7 @@ class ContactBar extends Component {
             <Input placeholder="Search" />
           </InputGroup>
         </div>
-        {this.renderContactCard}
+        <ContactCard />
       </Container>
     );
   }
