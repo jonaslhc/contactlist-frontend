@@ -2,3 +2,9 @@
   background-color: gainsboro;
   min-height: 100vh;
 }
+
+.searchbar-container .contact {
+  word-wrap: break-word;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
