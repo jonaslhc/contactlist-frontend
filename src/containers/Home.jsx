@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import ContactCard from '../components/ContactCard';
+import ContactBar from '../components/ContactBar';
 import ContactDetail from '../components/ContactDetail';
 
 class Home extends Component {
@@ -17,7 +17,7 @@ class Home extends Component {
       <Container>
         <Row>
           <Col xs="3">
-            <ContactCard />
+            <ContactBar />
           </Col>
           <Col xs="9">
             <ContactDetail />
