@@ -6,9 +6,17 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './reducers'
 
 import Home from './containers/Home';
 import './App.css';
+
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const client = new ApolloClient({
   link: createHttpLink({ uri: 'http://localhost:4000/graphql' }),
@@ -18,11 +26,13 @@ const client = new ApolloClient({
 class App extends Component {
   render() {
     return (
-      <ApolloProvider client={client}>
-        <Router>
-          <Route exact path="/" component={Home} />
-        </Router>
-      </ApolloProvider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <Router>
+            <Route exact path="/" component={Home} />
+          </Router>
+        </ApolloProvider>
+      </Provider>
     );
   }
 }
