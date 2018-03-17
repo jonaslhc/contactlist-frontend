@@ -38,7 +38,7 @@ class App extends Component {
                   <Home />
                 </Col>
                 <Col className="home-col" xs="9">
-                  <Route path="/users/:id" component={ContactDetail} />
+                  <Route path="/users/:id" render={(props) => <ContactDetail store={store} {...props} />} />
                 </Col>
               </Row>
             </Container>
