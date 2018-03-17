@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { Container, InputGroup, Input } from 'reactstrap';
-import ContactCard from '../components/ContactCard';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { selectContact } from '../actions';
 import '../styles/contactBars.css';
+
+const mapStateToProps = state => ({
+  selectedId: state.id,
+});
+
+const mapDispatchToProps = dispatch => ({
+  selectContact: contact => { dispatch(selectContact(contact)); },
+});
 
 export const contactListQuery = gql`
   query contactListQuery {
@@ -30,17 +39,14 @@ class ContactBar extends Component {
   }
 
   renderContacts(data) {
-    if (data.loading) {
-        return <p>Loading ...</p>;
-    }
-    if (data.error) {
-      return <p>{data.error.message}</p>;
+    if (data.loading || data.error) {
+      return data.loading ? <p>Loading ...</p> : <p>{data.error.message}</p>;
     }
 
     return (
       <div className="contacts-list">
         {data.Contact.map(contact => (
-          <div key={contact.contactId} className="contact">
+          <div key={contact.contactId} className="contact" onClick={() => { this.props.selectContact(contact); }}>
             <span>{contact.lastname}, {contact.firstname}</span>
           </div>))
         }
@@ -63,4 +69,14 @@ class ContactBar extends Component {
   }
 }
 
-export default graphql(contactListQuery)(ContactBar);
+ContactBar.defaultProps = {
+  data: {},
+};
+
+ContactBar.propType = {
+  data: PropTypes.object,
+  selectedId: PropTypes.number,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(graphql(contactListQuery)(ContactBar));
+// export default connect(mapStateToProps)(graphql(contactListQuery)(ContactBar));
