@@ -20,3 +20,7 @@
 .search-container h5 {
   text-align: center;
 }
+
+.searchbar-container .contact-searched {
+  background-color: #afb4bc;
+}
