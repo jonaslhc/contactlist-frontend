@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { selectContact, populateContacts } from '../actions';
+
 import '../styles/contactBars.css';
 
 const mapStateToProps = state => (
@@ -46,6 +47,12 @@ class ContactBar extends Component {
     this.handleRoute = this.handleRoute.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.sameContacts(nextProps.data.Contact, this.props.data.Contact)) {
+      this.props.populateContacts(nextProps.data.Contact);
+    }
+  }
+
   sameContacts(nextProp, currProp) {
     if (!currProp || !nextProp) return false;
 
@@ -57,13 +64,6 @@ class ContactBar extends Component {
     }
 
     return true;
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-    if (!this.sameContacts(nextProps.data.Contact, this.props.data.Contact)) {
-      this.props.populateContacts(nextProps.data.Contact);
-    }
   }
 
   handleRoute(event) {
@@ -86,7 +86,6 @@ class ContactBar extends Component {
       return data.loading ? <p>Loading ...</p> : <p>{data.error.message}</p>;
     }
 
-    console.log(this.props.data);
     return (
       <div className="contacts-list">
         {data.Contact.map((contact) => {
@@ -110,7 +109,7 @@ class ContactBar extends Component {
 
   render() {
     return (
-      <Container className="searchbar-container">
+      <div className="searchbar-container">
         <div className="search-container">
           <h5>All Contacts</h5>
           <FormGroup>
@@ -118,7 +117,7 @@ class ContactBar extends Component {
           </FormGroup>
         </div>
         {this.renderContacts(this.props.data)}
-      </Container>
+      </div>
     );
   }
 }
