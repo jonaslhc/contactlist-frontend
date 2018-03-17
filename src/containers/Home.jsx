@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import ContactBar from '../components/ContactBar';
 import ContactDetail from '../components/ContactDetail';
-import { withRouter } from 'react-router';
 
 import '../styles/home.css';
 

@@ -4,15 +4,19 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectContact } from '../actions';
+import { selectContact, populateContacts } from '../actions';
 import '../styles/contactBars.css';
 
 const mapStateToProps = state => (
-  { selectedId: state }
+  { 
+    selectedId: state.contact,
+    contacts: state.contacts,
+  }
 );
 
 const mapDispatchToProps = dispatch => ({
   selectContact: contact => { dispatch(selectContact(contact)); },
+  populateContacts: contacts => {dispatch(populateContacts(contacts)); },
 });
 
 export const contactListQuery = gql`
@@ -36,9 +40,30 @@ class ContactBar extends Component {
       searchWord: '',
     };
 
+    this.sameContacts = this.sameContacts.bind(this);
     this.renderContacts = this.renderContacts.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleRoute = this.handleRoute.bind(this);
+  }
+
+  sameContacts(nextProp, currProp) {
+    if (!currProp || !nextProp) return false;
+
+    if (nextProp && currProp && nextProp.contacts && currProp.contacts) {
+      if (nextProp.contacts.length !== currProp.contacts.length) return false;
+      for (let i = 0; i < nextProp.length; i++) {
+        if (nextProp.contacts[i].id !== currProp.contacts[i].id) return false;
+      }
+    }
+
+    return true;
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.sameContacts(nextProps.data.Contact, this.props.data.Contact)) {
+      this.props.populateContacts(nextProps.data.Contact);
+    }
   }
 
   handleRoute(event) {
@@ -61,19 +86,22 @@ class ContactBar extends Component {
       return data.loading ? <p>Loading ...</p> : <p>{data.error.message}</p>;
     }
 
+    console.log(this.props.data);
     return (
       <div className="contacts-list">
-        {data.Contact.map(contact => {
+        {data.Contact.map((contact) => {
           let hasBeenSearched = false;
           const { searchWord } = this.state;
-          if (searchWord && (contact.lastname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1 ||
-            contact.firstname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1)) {
+
+          if (searchWord && (contact.lastname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1
+          || contact.firstname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1)) {
             hasBeenSearched = true;
           }
+
           return (
-            <div key={contact.contactId} className={`contact ${hasBeenSearched ? 'contact-searched' : ''} `} onClick={() => { this.handleRoute(contact.contactId); this.props.selectContact(contact); }}>
+            <div key={contact.contactId} className={`contact ${hasBeenSearched ? 'contact-searched' : ''} `} role="presentation" onClick={() => { this.handleRoute(contact.contactId); this.props.selectContact(contact); }}>
               <span>{contact.lastname}, {contact.firstname}</span>
-            </div>)
+            </div>);
           })
         }
       </div>

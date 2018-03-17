@@ -31,8 +31,7 @@ class App extends Component {
         <ApolloProvider client={client}>
           <Router>
             <div>
-              <Home history={this.props.history}/>
-              {/* <Route exact path="/" component={Home} /> */}
+              <Home />
               <Route path="/users/:id" component={ContactDetail} />
             </div>
           </Router>
