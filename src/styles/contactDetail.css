@@ -1,4 +1,9 @@
 .contact-detail-container {
   background-color: #efefef;
   min-height: 100vh;
+  padding: 2vw;
+}
+
+.contact-detail-container h2 {
+  margin-bottom: 2rem;
 }
