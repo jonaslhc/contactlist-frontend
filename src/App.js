@@ -11,6 +11,7 @@ import { createStore } from 'redux';
 import rootReducer from './reducers'
 
 import Home from './containers/Home';
+import ContactDetail from './components/ContactDetail';
 import './App.css';
 
 const store = createStore(
@@ -29,7 +30,10 @@ class App extends Component {
       <Provider store={store}>
         <ApolloProvider client={client}>
           <Router>
-            <Route exact path="/" component={Home} />
+            <div>
+              <Route exact path="/" component={Home} />
+              <Route path="/users/:id" component={ContactDetail} />
+            </div>
           </Router>
         </ApolloProvider>
       </Provider>

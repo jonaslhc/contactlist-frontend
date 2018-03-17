@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import '../styles/contactDetail.css';
+
+const mapStateToProps = state => (
+  { selectedId: state }
+);
 
 class ContactDetail extends Component {
   constructor(props) {
@@ -14,10 +19,10 @@ class ContactDetail extends Component {
   render() {
     return (
       <div className="contact-detail-container">
-        detail
+        hello
       </div>
     );
   }
 }
 
-export default ContactDetail;
+export default connect(mapStateToProps)(ContactDetail);

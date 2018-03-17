@@ -34,11 +34,15 @@ class ContactBar extends Component {
 
     this.state = {
       searchWord: '',
-      searchId: -1,
     };
 
     this.renderContacts = this.renderContacts.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleRoute = this.handleRoute.bind(this);
+  }
+
+  handleRoute(event) {
+    this.props.history.push(`users/${event}`);
   }
 
   handleSearch(event) {
@@ -67,7 +71,7 @@ class ContactBar extends Component {
             hasBeenSearched = true;
           }
           return (
-            <div key={contact.contactId} className={`contact ${hasBeenSearched ? 'contact-searched' : ''} `} onClick={() => { this.props.selectContact(contact); }}>
+            <div key={contact.contactId} className={`contact ${hasBeenSearched ? 'contact-searched' : ''} `} onClick={() => { this.handleRoute(contact.contactId); this.props.selectContact(contact); }}>
               <span>{contact.lastname}, {contact.firstname}</span>
             </div>)
           })
@@ -98,6 +102,7 @@ ContactBar.defaultProps = {
 ContactBar.propType = {
   data: PropTypes.object,
   selectedId: PropTypes.number,
+  history: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(graphql(contactListQuery)(ContactBar));
