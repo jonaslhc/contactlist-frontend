@@ -42,7 +42,7 @@ class ContactBar extends Component {
   }
 
   handleRoute(event) {
-    this.props.history.push(`users/${event}`);
+    this.props.history.push(`/users/${event}`);
   }
 
   handleSearch(event) {

@@ -3,6 +3,7 @@ import { Container, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ContactBar from '../components/ContactBar';
 import ContactDetail from '../components/ContactDetail';
+import { withRouter } from 'react-router';
 
 import '../styles/home.css';
 
@@ -31,8 +32,8 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  history: PropTypes.object.isRequired,
+Home.propType = {
+  history: PropTypes.object,
 };
 
-export default Home;
+export default withRouter(Home);
