@@ -41,21 +41,23 @@ class ContactDetail extends Component {
       phone: '',
       email: '',
       address: '',
-      unsubscribe: {},
+      unsubscribe: null,
     };
 
     this.setContactInfo = this.setContactInfo.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
     this.populateContact = this.populateContact.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
   }
 
   componentDidMount() {
-    this.state.unsubscribe = this.props.store.subscribe(() => {
+    const unsubscribeStore = this.props.store.subscribe(() => {
       if (this.props.store.getState().contacts && this.props.store.getState().contacts.contact) {
         this.setContactInfo(this.props.store.getState().contacts.contact);
       }
     });
+    this.unsubscribe(unsubscribeStore);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,12 +84,15 @@ class ContactDetail extends Component {
     });
   }
 
+  unsubscribe(unsubscribeStore) {
+    this.setState({ unsubscribe: unsubscribeStore });
+  }
+
   populateContact(contactId, contacts) {
     const validContact = contacts.find((contact) => {
       return contact.contactId === contactId;
     });
 
-    console.log('valid', validContact);
     if (validContact) {
       this.setContactInfo(validContact);
     }
@@ -129,8 +134,6 @@ class ContactDetail extends Component {
       firstName, lastName, phone, email, address,
     } = this.state;
 
-    console.log('contacts.contacts', this.props);
-
     return (
       <div>
         <div className="contact-detail-container">
@@ -151,16 +154,16 @@ class ContactDetail extends Component {
               <Input placeholder="Address" innerRef={(el) => { this.address = el; }} />
             </ModalBody>
             <ModalFooter>
-              <Button color="success" onClick={this.toggleSuccess}>Done</Button>{' '}
+              <Button color="info" onClick={this.toggleSuccess}>Done</Button>{' '}
               <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
           </Modal>
           {firstName &&
             <div>
               <h2>{ firstName } { lastName }</h2>
-              <p>Phone: { phone }</p>
-              <p>Email: { email }</p>
-              <p>Address: { address }</p>
+              <p>Phone: ({phone.substring(0, 3)}) {phone.substring(3, 6)}-{phone.substring(6)} </p>
+              <p>Email: {email}</p>
+              <p>Address: {address}</p>
             </div>
           }
           {!firstName && <h2>No Contact is selected</h2>}
