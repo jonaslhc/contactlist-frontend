@@ -32,6 +32,6 @@ Backend
 ## Future Work
 1. Mobile responsiveness
 2. Data persistence
-3. Graphql cacheREAD
+3. Graphql cache + subscribe
 4. Code coverage
 5. Add/Delete contacts
