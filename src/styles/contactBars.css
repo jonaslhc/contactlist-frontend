@@ -4,13 +4,13 @@
 }
 
 .search-container {
-  padding: 1vh;
+  padding: 1vw;
 }
 
 .searchbar-container .contact {
   word-wrap: break-word;
   padding: 10px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #83878e;
 }
 
 .searchbar-container .search-contact-input {
@@ -19,4 +19,16 @@
 
 .search-container h5 {
   text-align: center;
+}
+
+.searchbar-container .contact-searched {
+  background-color: #afb4bc;
+}
+
+.searchbar-container .contacts-list {
+  padding: 1vw;
+}
+
+.contacts-list .contact {
+  color: #6f7277;
 }

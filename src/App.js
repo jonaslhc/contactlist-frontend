@@ -9,8 +9,11 @@ import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers'
+import { Container, Col, Row } from 'reactstrap';
 
+import ContactDetail from './components/ContactDetail';
 import Home from './containers/Home';
+
 import './App.css';
 
 const store = createStore(
@@ -29,7 +32,16 @@ class App extends Component {
       <Provider store={store}>
         <ApolloProvider client={client}>
           <Router>
-            <Route exact path="/" component={Home} />
+            <Container className="app-container">
+              <Row>
+                <Col className="home-col" xs="3">
+                  <Home />
+                </Col>
+                <Col className="home-col" xs="9">
+                  <Route path="/users/:id" render={(props) => <ContactDetail store={store} {...props} />} />
+                </Col>
+              </Row>
+            </Container>
           </Router>
         </ApolloProvider>
       </Provider>

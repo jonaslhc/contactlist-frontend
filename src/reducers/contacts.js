@@ -1,12 +1,15 @@
 const contacts = (state = {}, action) => {
   switch (action.type) {
     case 'SELECT_CONTACT':
-      return [
+      return {
         ...state,
-        {
-          data: action.payload,
-        },
-      ];
+        contact: action.payload,
+      };
+    case 'POPULATE_CONTACTS':
+      return {
+        ...state,
+        contacts: action.payload,
+      };
     default:
       return state;
   }

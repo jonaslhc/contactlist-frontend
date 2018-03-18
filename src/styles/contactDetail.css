@@ -1,4 +1,21 @@
 .contact-detail-container {
   background-color: #efefef;
   min-height: 100vh;
+  padding: 2vw;
+}
+
+.contact-detail-container h2 {
+  margin-bottom: 2rem;
+}
+
+.contact-detail-container .edit-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.contact-detail-container .edit-button {
+  border-radius: 20%;
+  background-color: #afb4bc;
+  border-color: #afb4bc;
+  color: black;
 }
