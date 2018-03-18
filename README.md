@@ -26,12 +26,12 @@ Frontend
 Backend
 
 1. npm install
-2. node server
+2. node server.js
 ```
 
 ## Future Work
 1. Mobile responsiveness
 2. Data persistence
-3. Graphql cache
+3. Graphql cacheREAD
 4. Code coverage
 5. Add/Delete contacts
