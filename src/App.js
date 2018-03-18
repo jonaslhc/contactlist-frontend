@@ -32,7 +32,7 @@ class App extends Component {
       <Provider store={store}>
         <ApolloProvider client={client}>
           <Router>
-            <Container>
+            <Container className="app-container">
               <Row>
                 <Col className="home-col" xs="3">
                   <Home />
