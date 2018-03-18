@@ -11,7 +11,7 @@ import { createStore } from 'redux';
 import rootReducer from './reducers'
 import { Container, Col, Row } from 'reactstrap';
 
-import ContactDetail from './components/ContactDetail';
+import ContactDetail from './containers/ContactDetail';
 import Home from './containers/Home';
 
 import './App.css';

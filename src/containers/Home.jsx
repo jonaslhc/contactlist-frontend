@@ -1,25 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import ContactBar from '../components/ContactBar';
-// import ContactDetail from '../components/ContactDetail';
+import ContactBar from '../containers/ContactBar';
 
 import '../styles/home.css';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-
-    };
-  }
-
-  render() {
-    return (
-      <ContactBar history={this.props.history} />
-    );
-  }
+function Home({ history }) {
+  return (
+    <ContactBar history={history} />
+  );
 }
 
 Home.propType = {
