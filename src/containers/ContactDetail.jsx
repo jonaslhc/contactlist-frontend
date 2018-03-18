@@ -11,7 +11,7 @@ import { contactListQuery } from './ContactBar';
 import '../styles/contactDetail.css';
 
 const mapStateToProps = state => (
-  { 
+  {
     contactDetail: state.contact,
     contacts: state.contacts,
   }
@@ -35,7 +35,6 @@ class ContactDetail extends Component {
 
     this.state = {
       modal: false,
-      edited: false,
       contactId: -1,
       firstName: '',
       lastName: '',
@@ -60,7 +59,6 @@ class ContactDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('match', nextProps);
     if (nextProps.match.params.id && Object.keys(nextProps.contacts.contacts).length > 0) {
       const contactId = nextProps.match.params.id;
       if (!isNaN(parseFloat(contactId)) && isFinite(contactId) && contactId >= 0) {
@@ -72,19 +70,6 @@ class ContactDetail extends Component {
   componentWillUnmount() {
     this.state.unsubscribe();
   }
-
-  // sameContacts(nextProp, currProp) {
-  //   if (Object.keys(nextProp).length > 0) return false;
-
-  //   if (nextProp && currProp && nextProp.contacts && currProp.contacts) {
-  //     if (nextProp.contacts.length !== currProp.contacts.length) return false;
-  //     for (let i = 0; i < nextProp.length; i++) {
-  //       if (nextProp.contacts[i].id !== currProp.contacts[i].id) return false;
-  //     }
-  //   }
-
-  //   return true;
-  // }
 
   setContactInfo(data) {
     this.setState({
@@ -117,7 +102,6 @@ class ContactDetail extends Component {
   toggleSuccess() {
     this.setState({
       modal: !this.state.modal,
-      edited: true,
       firstName: this.firstName.value,
       lastName: this.lastName.value,
       address: this.address.value,
