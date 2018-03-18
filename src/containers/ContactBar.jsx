@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, FormGroup, Input } from 'reactstrap';
+import { FormGroup, Input } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
@@ -10,7 +10,6 @@ import '../styles/contactBars.css';
 
 const mapStateToProps = state => (
   { 
-    selectedId: state.contact,
     contacts: state.contacts,
   }
 );
@@ -54,7 +53,7 @@ class ContactBar extends Component {
   }
 
   sameContacts(nextProp, currProp) {
-    if (!currProp && nextProp || !nextProp && currProp) return false;
+    if ((!currProp && nextProp) || (!nextProp && currProp)) return false;
 
     if (nextProp && currProp && nextProp.contacts && currProp.contacts) {
       if (nextProp.contacts.length !== currProp.contacts.length) return false;
@@ -128,7 +127,6 @@ ContactBar.defaultProps = {
 
 ContactBar.propType = {
   data: PropTypes.object,
-  selectedId: PropTypes.number,
   history: PropTypes.object,
 };
 

@@ -7,4 +7,3 @@ export const populateContacts = data => ({
   type: 'POPULATE_CONTACTS',
   payload: data,
 });
-
