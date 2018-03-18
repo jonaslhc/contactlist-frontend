@@ -54,7 +54,7 @@ class ContactBar extends Component {
   }
 
   sameContacts(nextProp, currProp) {
-    if (!currProp || !nextProp) return false;
+    if (!currProp && nextProp || !nextProp && currProp) return false;
 
     if (nextProp && currProp && nextProp.contacts && currProp.contacts) {
       if (nextProp.contacts.length !== currProp.contacts.length) return false;

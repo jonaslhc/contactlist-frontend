@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 
 import '../styles/contactDetail.css';
 
@@ -9,12 +12,26 @@ const mapStateToProps = state => (
   { contactDetail: state.contact }
 );
 
+const modifyContactMutation = gql`
+  mutation modifyContactMutation($contactId: String!, $firstName: String, $lastName: String, $phone: String, $address: String, $email: String) {
+    modifyContact(contactId: $contactId, firstName: $firstName, lastName: $lastName, phone: $phone, address: $address, email: $email) {
+      firstname
+      lastname
+      address
+      phone
+      email
+    }
+  }
+`;
+
 class ContactDetail extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       modal: false,
+      edited: false,
+      contactId: -1,
       firstName: '',
       lastName: '',
       phone: '',
@@ -24,6 +41,7 @@ class ContactDetail extends Component {
 
     this.setContactInfo = this.setContactInfo.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.toggleSuccess = this.toggleSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +54,7 @@ class ContactDetail extends Component {
 
   setContactInfo(data) {
     this.setState({
+      contactId: data.contactId,
       firstName: data.firstname,
       lastName: data.lastname,
       phone: data.phone,
@@ -50,6 +69,31 @@ class ContactDetail extends Component {
     });
   }
 
+  toggleSuccess() {
+    this.setState({
+      modal: !this.state.modal,
+      edited: true,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      address: this.address.value,
+      email: this.email.value,
+      phone: this.phone.value,
+    });
+
+    this.props.mutate({
+      variables: {
+        contactId: this.state.contactId,
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        address: this.address.value,
+        email: this.email.value,
+        phone: this.phone.value,
+      },
+    }).then((res) => {
+      console.log('success', res);
+    });
+  }
+
   render() {
     const { firstName, lastName, phone, email, address } = this.state;
 
@@ -57,13 +101,17 @@ class ContactDetail extends Component {
       <div>
         <div className="contact-detail-container">
           <Button color="secondary" onClick={this.toggle}>Edit</Button>
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <Modal isOpen={this.state.modal} toggle={this.toggle} className="">
+            <ModalHeader toggle={this.toggle}>Edit This Contact</ModalHeader>
             <ModalBody>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <Input placeholder="First Name" innerRef={(el) => { this.firstName = el; }} />
+              <Input placeholder="Last Name" innerRef={(el) => { this.lastName = el; }} />
+              <Input placeholder="Phone" innerRef={(el) => { this.phone = el; }} />
+              <Input placeholder="Email" innerRef={(el) => { this.email = el; }} />
+              <Input placeholder="Address" innerRef={(el) => { this.address = el; }} />
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+              <Button color="success" onClick={this.toggleSuccess}>Done</Button>{' '}
               <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
           </Modal>
@@ -87,4 +135,4 @@ ContactDetail.propType = {
   store: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(ContactDetail);
+export default connect(mapStateToProps)(graphql(modifyContactMutation)(ContactDetail));
