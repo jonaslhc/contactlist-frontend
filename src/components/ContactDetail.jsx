@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { contactListQuery } from './ContactBar';
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 
@@ -89,6 +90,7 @@ class ContactDetail extends Component {
         email: this.email.value,
         phone: this.phone.value,
       },
+      refetchQueries: [{ query: contactListQuery }],
     }).then((res) => {
       console.log('success', res);
     });
@@ -100,7 +102,9 @@ class ContactDetail extends Component {
     return (
       <div>
         <div className="contact-detail-container">
-          <Button color="secondary" onClick={this.toggle}>Edit</Button>
+          <div className="edit-button-container">
+            <Button color="secondary" onClick={this.toggle}>Edit</Button>
+          </div>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="">
             <ModalHeader toggle={this.toggle}>Edit This Contact</ModalHeader>
             <ModalBody>

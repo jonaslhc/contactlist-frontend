@@ -7,3 +7,8 @@
 .contact-detail-container h2 {
   margin-bottom: 2rem;
 }
+
+.contact-detail-container .edit-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
