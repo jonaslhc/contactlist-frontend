@@ -1,5 +1,5 @@
 .contact-detail-container {
-  background-color: #efefef;
+  background-color: #ededed;
   min-height: 100vh;
   padding: 2vw;
 }
@@ -18,4 +18,18 @@
   background-color: #afb4bc;
   border-color: #afb4bc;
   color: black;
+}
+
+.modal-body .modal-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.modal-input {
+  width: 50%;
+}
+
+.contact-detail-container .contact-detail-display-container {
+  word-wrap: break-word;
 }

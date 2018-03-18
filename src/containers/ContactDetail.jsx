@@ -48,7 +48,7 @@ class ContactDetail extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
     this.populateContact = this.populateContact.bind(this);
-    this.unsubscribe = this.unsubscribe.bind(this);
+    this.setUnsubscribe = this.setUnsubscribe.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +57,7 @@ class ContactDetail extends Component {
         this.setContactInfo(this.props.store.getState().contacts.contact);
       }
     });
-    this.unsubscribe(unsubscribeStore);
+    this.setUnsubscribe(unsubscribeStore);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,6 +66,9 @@ class ContactDetail extends Component {
       if (!isNaN(parseFloat(contactId)) && isFinite(contactId) && contactId >= 0) {
         this.populateContact(contactId, nextProps.contacts.contacts);
       }
+    }
+    if (this.props.store.getState().contacts && this.props.store.getState().contacts.contact) {
+      this.setContactInfo(this.props.store.getState().contacts.contact);
     }
   }
 
@@ -84,7 +87,7 @@ class ContactDetail extends Component {
     });
   }
 
-  unsubscribe(unsubscribeStore) {
+  setUnsubscribe(unsubscribeStore) {
     this.setState({ unsubscribe: unsubscribeStore });
   }
 
@@ -143,15 +146,26 @@ class ContactDetail extends Component {
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="">
             <ModalHeader toggle={this.toggle}>Edit {firstName} {lastName}</ModalHeader>
             <ModalBody>
-              <Input placeholder="First Name" innerRef={(el) => { this.firstName = el; }} />
-              <br />
-              <Input placeholder="Last Name" innerRef={(el) => { this.lastName = el; }} />
-              <br />
-              <Input placeholder="Phone" innerRef={(el) => { this.phone = el; }} />
-              <br />
-              <Input placeholder="Email" innerRef={(el) => { this.email = el; }} />
-              <br />
-              <Input placeholder="Address" innerRef={(el) => { this.address = el; }} />
+              <div className="modal-container">
+                <span>First Name</span>
+                <Input className="modal-input" placeholder="First Name" innerRef={(el) => { this.firstName = el; }} />
+              </div>
+              <div className="modal-container">
+                <span>Last Name</span>
+                <Input className="modal-input" placeholder="Last Name" innerRef={(el) => { this.lastName = el; }} />
+              </div>
+              <div className="modal-container">
+                <span>Phone</span>
+                <Input className="modal-input" placeholder="111-111-1111" innerRef={(el) => { this.phone = el; }} />
+              </div>
+              <div className="modal-container">
+                <span>Email</span>
+                <Input className="modal-input" placeholder="example@example.com" innerRef={(el) => { this.email = el; }} />
+              </div>
+              <div className="modal-container">
+                <span>Address</span>
+                <Input className="modal-input" placeholder="Address" innerRef={(el) => { this.address = el; }} />
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="info" onClick={this.toggleSuccess}>Done</Button>{' '}
@@ -159,7 +173,7 @@ class ContactDetail extends Component {
             </ModalFooter>
           </Modal>
           {firstName &&
-            <div>
+            <div className="contact-detail-display-container">
               <h2>{ firstName } { lastName }</h2>
               <p>Phone: ({phone.substring(0, 3)}) {phone.substring(3, 6)}-{phone.substring(6)} </p>
               <p>Email: {email}</p>
