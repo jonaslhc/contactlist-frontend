@@ -11,7 +11,10 @@ import { contactListQuery } from './ContactBar';
 import '../styles/contactDetail.css';
 
 const mapStateToProps = state => (
-  { contactDetail: state.contact }
+  { 
+    contactDetail: state.contact,
+    contacts: state.contacts,
+  }
 );
 
 const modifyContactMutation = gql`
@@ -39,20 +42,49 @@ class ContactDetail extends Component {
       phone: '',
       email: '',
       address: '',
+      unsubscribe: {},
     };
 
     this.setContactInfo = this.setContactInfo.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
+    this.populateContact = this.populateContact.bind(this);
   }
 
   componentDidMount() {
-    this.props.store.subscribe(() => {
+    this.state.unsubscribe = this.props.store.subscribe(() => {
       if (this.props.store.getState().contacts && this.props.store.getState().contacts.contact) {
         this.setContactInfo(this.props.store.getState().contacts.contact);
       }
     });
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('match', nextProps);
+    if (nextProps.match.params.id && Object.keys(nextProps.contacts.contacts).length > 0) {
+      const contactId = nextProps.match.params.id;
+      if (!isNaN(parseFloat(contactId)) && isFinite(contactId) && contactId >= 0) {
+        this.populateContact(contactId, nextProps.contacts.contacts);
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe();
+  }
+
+  // sameContacts(nextProp, currProp) {
+  //   if (Object.keys(nextProp).length > 0) return false;
+
+  //   if (nextProp && currProp && nextProp.contacts && currProp.contacts) {
+  //     if (nextProp.contacts.length !== currProp.contacts.length) return false;
+  //     for (let i = 0; i < nextProp.length; i++) {
+  //       if (nextProp.contacts[i].id !== currProp.contacts[i].id) return false;
+  //     }
+  //   }
+
+  //   return true;
+  // }
 
   setContactInfo(data) {
     this.setState({
@@ -63,6 +95,17 @@ class ContactDetail extends Component {
       email: data.email,
       address: data.address,
     });
+  }
+
+  populateContact(contactId, contacts) {
+    const validContact = contacts.find((contact) => {
+      return contact.contactId === contactId;
+    });
+
+    console.log('valid', validContact);
+    if (validContact) {
+      this.setContactInfo(validContact);
+    }
   }
 
   toggle() {
@@ -98,7 +141,11 @@ class ContactDetail extends Component {
   }
 
   render() {
-    const { firstName, lastName, phone, email, address } = this.state;
+    const {
+      firstName, lastName, phone, email, address,
+    } = this.state;
+
+    console.log('contacts.contacts', this.props);
 
     return (
       <div>
@@ -141,7 +188,9 @@ class ContactDetail extends Component {
 
 ContactDetail.propType = {
   contactDetail: PropTypes.object,
+  contacts: PropTypes.array,
   store: PropTypes.object,
+  match: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(graphql(modifyContactMutation)(ContactDetail));
