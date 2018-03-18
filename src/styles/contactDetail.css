@@ -12,3 +12,10 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.contact-detail-container .edit-button {
+  border-radius: 20%;
+  background-color: #afb4bc;
+  border-color: #afb4bc;
+  color: black;
+}

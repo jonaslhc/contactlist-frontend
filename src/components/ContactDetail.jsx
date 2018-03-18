@@ -60,7 +60,7 @@ class ContactDetail extends Component {
       lastName: data.lastname,
       phone: data.phone,
       email: data.email,
-      address: data.email,
+      address: data.address,
     });
   }
 
@@ -103,15 +103,19 @@ class ContactDetail extends Component {
       <div>
         <div className="contact-detail-container">
           <div className="edit-button-container">
-            <Button color="secondary" onClick={this.toggle}>Edit</Button>
+            <Button className="edit-button" color="secondary" onClick={this.toggle}>Edit</Button>
           </div>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="">
-            <ModalHeader toggle={this.toggle}>Edit This Contact</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Edit {firstName} {lastName}</ModalHeader>
             <ModalBody>
               <Input placeholder="First Name" innerRef={(el) => { this.firstName = el; }} />
+              <br />
               <Input placeholder="Last Name" innerRef={(el) => { this.lastName = el; }} />
+              <br />
               <Input placeholder="Phone" innerRef={(el) => { this.phone = el; }} />
+              <br />
               <Input placeholder="Email" innerRef={(el) => { this.email = el; }} />
+              <br />
               <Input placeholder="Address" innerRef={(el) => { this.address = el; }} />
             </ModalBody>
             <ModalFooter>
