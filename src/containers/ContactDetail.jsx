@@ -41,7 +41,7 @@ class ContactDetail extends Component {
       phone: '',
       email: '',
       address: '',
-      unsubscribe: {},
+      unsubscribe: null,
     };
 
     this.setContactInfo = this.setContactInfo.bind(this);
