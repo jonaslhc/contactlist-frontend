@@ -57,6 +57,9 @@ class ContactDetail extends Component {
         this.setContactInfo(this.props.contactDetail);
       }
     });
+    if (this.props.contactDetail) {
+      this.setContactInfo(this.props.contactDetail);
+    }
     this.setUnsubscribe(unsubscribeStore);
   }
 
