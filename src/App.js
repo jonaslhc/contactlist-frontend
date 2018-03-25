@@ -1,16 +1,14 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import rootReducer from './reducers'
 import { Container, Col, Row } from 'reactstrap';
 
+import rootReducer from './reducers';
 import ContactDetail from './containers/ContactDetail';
 import Home from './containers/Home';
 

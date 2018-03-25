@@ -12,8 +12,8 @@ import '../styles/contactDetail.css';
 
 const mapStateToProps = state => (
   {
-    contactDetail: state.contact,
-    contacts: state.contacts,
+    contactDetail: state.contacts.contact,
+    contacts: state.contacts.contacts,
   }
 );
 
@@ -53,22 +53,22 @@ class ContactDetail extends Component {
 
   componentDidMount() {
     const unsubscribeStore = this.props.store.subscribe(() => {
-      if (this.props.store.getState().contacts && this.props.store.getState().contacts.contact) {
-        this.setContactInfo(this.props.store.getState().contacts.contact);
+      if (this.props.contactDetail) {
+        this.setContactInfo(this.props.contactDetail);
       }
     });
     this.setUnsubscribe(unsubscribeStore);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id && Object.keys(nextProps.contacts.contacts).length > 0) {
+    if (nextProps.match.params.id && Object.keys(nextProps.contacts).length > 0) {
       const contactId = nextProps.match.params.id;
       if (!isNaN(parseFloat(contactId)) && isFinite(contactId) && contactId >= 0) {
-        this.populateContact(contactId, nextProps.contacts.contacts);
+        this.populateContact(contactId, nextProps.contacts);
       }
     }
-    if (this.props.store.getState().contacts && this.props.store.getState().contacts.contact) {
-      this.setContactInfo(this.props.store.getState().contacts.contact);
+    if (nextProps.contactDetail) {
+      this.setContactInfo(nextProps.contactDetail);
     }
   }
 
