@@ -9,7 +9,7 @@ import { selectContact, populateContacts } from '../actions';
 import '../styles/contactBars.css';
 
 const mapStateToProps = state => (
-  { 
+  {
     contacts: state.contacts,
   }
 );
@@ -91,8 +91,9 @@ class ContactBar extends Component {
           let hasBeenSearched = false;
           const { searchWord } = this.state;
 
-          if (searchWord && (contact.lastname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1
-          || contact.firstname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1)) {
+          if (searchWord &&
+          (contact.lastname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1 ||
+          contact.firstname.toLowerCase().indexOf(searchWord.toLocaleLowerCase()) !== -1)) {
             hasBeenSearched = true;
           }
 
@@ -128,6 +129,7 @@ ContactBar.defaultProps = {
 ContactBar.propType = {
   data: PropTypes.object,
   history: PropTypes.object,
+  selectContact: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(graphql(contactListQuery)(ContactBar));
