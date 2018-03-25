@@ -41,26 +41,18 @@ class ContactDetail extends Component {
       phone: '',
       email: '',
       address: '',
-      unsubscribe: null,
     };
 
     this.setContactInfo = this.setContactInfo.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
     this.populateContact = this.populateContact.bind(this);
-    this.setUnsubscribe = this.setUnsubscribe.bind(this);
   }
 
   componentDidMount() {
-    const unsubscribeStore = this.props.store.subscribe(() => {
-      if (this.props.contactDetail) {
-        this.setContactInfo(this.props.contactDetail);
-      }
-    });
     if (this.props.contactDetail) {
       this.setContactInfo(this.props.contactDetail);
     }
-    this.setUnsubscribe(unsubscribeStore);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,10 +67,6 @@ class ContactDetail extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.state.unsubscribe();
-  }
-
   setContactInfo(data) {
     this.setState({
       contactId: data.contactId,
@@ -88,10 +76,6 @@ class ContactDetail extends Component {
       email: data.email,
       address: data.address,
     });
-  }
-
-  setUnsubscribe(unsubscribeStore) {
-    this.setState({ unsubscribe: unsubscribeStore });
   }
 
   populateContact(contactId, contacts) {
